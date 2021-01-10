@@ -4,6 +4,8 @@ import AreaInput from "./common/AreaInput";
 import {matchData, structureTableData} from './service/processing'
 import {getSetAbsentFunction, scrapChildrenFunction} from './service/scraping'
 import {copyToClipboard} from './service/utils'
+import Card from "./components/Card";
+import {firstStepText, fourthStepText, secondStepText, thirdStepText} from "./App.text";
 
 const Page = styled.div`
   display: flex;
@@ -26,20 +28,17 @@ const Title = styled.div`
   margin: 12px auto 20px;
 `
 
-const Block = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 420px;
-  margin: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, .3), 0 3px 30px rgba(0, 0, 0, .3);
-  border-radius: 6px;
-  padding: 32px;
-`
-
 const Button = styled.button`
   border-radius: 4px;
-  border: solid 1px #333;
+  border: solid 1px #0039C7;
+  color: #0039C7;
   background: white;
+  margin-top: 12px;
+  height: 40px;
+
+  &:hover {
+    background: #ccdaff;
+  }
 `
 
 
@@ -120,52 +119,44 @@ const App = () => {
             <Title>Useful stuff</Title>
 
             <StepsContainer>
-                <Block>
-                    <div><b>Step 1</b>: Copy and paste the .csv file contents into the text area and then press
-                        the Submit button to read the children data.
-                    </div>
-
-                    <div><b>Status</b>: {tableData ? 'Completed!' : 'Not completed'}</div>
-
-                    <AreaInput value={rawCsv} placeholder={'Paste the .csv file contents here'} onChange={onRawCsvSet}/>
-                    <Button type="submit" onClick={onStep1Submit}>Submit</Button>
-                </Block>
-
-                <Block>
-                    <div><b>Step 2</b>: Press the Get Function button to copy the code to your clipboard.
-                        Paste and execute the code on the page with the children list to get the data.
-                    </div>
-
-                    <div><b>Status</b>: {parsedData ? 'Completed!' : 'Not completed'}</div>
-
-                    <Button type="button" onClick={onStep2GetFunction}>Get Function</Button>
-
-                    <AreaInput value={scrapedData} placeholder={'Paste the result of the function here'}
-                               onChange={onScrappedDataSet}/>
-                    <Button type="submit" onClick={onStep2Submit}>Submit</Button>
-                </Block>
-
-                <Block>
-                    <div><b>Step 3</b>: Map children from the .csv to the scrapped children from the web page.
-                    </div>
-
+                <Card title='Step 1' text={firstStepText} completed={!!tableData}>
                     {
-                        failedMatches &&
+                        !tableData &&
+                        <React.Fragment>
+                            <AreaInput value={rawCsv} placeholder={'Paste the .csv file contents here'}
+                                       onChange={onRawCsvSet}/>
+                            <Button type="submit" onClick={onStep1Submit}>Submit</Button>
+                        </React.Fragment>
+                    }
+                </Card>
+
+                <Card title='Step 2' text={secondStepText} completed={!!parsedData}>
+                    {
+                        !parsedData &&
+                        <React.Fragment>
+                            <Button type="button" onClick={onStep2GetFunction}>Get Function</Button>
+
+                            <AreaInput value={scrapedData} placeholder={'Paste the result of the function here'}
+                                       onChange={onScrappedDataSet}/>
+                            <Button type="submit" onClick={onStep2Submit}>Submit</Button>
+                        </React.Fragment>
+                    }
+                </Card>
+
+                <Card title='Step 3' text={thirdStepText} completed={!!successfulMatches}>
+                    {
+                        !!failedMatches.length &&
                         <div><b>Failed to match</b>: {failedMatches.join(', ')}</div>
                     }
+                    {
+                        !successfulMatches &&
+                        <Button type="submit" onClick={onStep3Submit}>Submit</Button>
+                    }
+                </Card>
 
-                    <div><b>Status</b>: {successfulMatches ? 'Completed!' : 'Not completed'}</div>
-
-                    <Button type="submit" onClick={onStep3Submit}>Submit</Button>
-                </Block>
-
-                <Block>
-                    <div><b>Step 4</b>: Press the Get Function button to copy the code to your clipboard.
-                        Paste and execute the code on the page with the children list to set the data from the .csv.
-                    </div>
-
+                <Card title='Step 4' text={fourthStepText}>
                     <Button type="button" onClick={onStep4GetFunction}>Get Function</Button>
-                </Block>
+                </Card>
             </StepsContainer>
 
         </Page>

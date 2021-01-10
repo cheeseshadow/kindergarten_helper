@@ -19,9 +19,11 @@ export const copyToClipboard = (value: string) => {
         }
 
     })
+    const currentScroll = document.documentElement.scrollTop
     button.click()
 
     $(`#${INPUT_ID}`).remove()
+    document.documentElement.scrollTop = currentScroll
 }
 
 export const fillWithZeros = (value: string, length: number): string => {

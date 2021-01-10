@@ -14,7 +14,7 @@ const TextArea = styled.textarea`
   border-radius: 4px;
   padding: 4px;
   height: 120px;
-  margin: 12px 0;
+  margin-top: 12px;
 `
 
 const AreaInput = ({value, placeholder, onChange}: Props) => {

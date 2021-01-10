@@ -46,7 +46,7 @@ export const scrapChildrenFunction = `(function() {
 })()`
 
 export const getSetAbsentFunction = (data: Map<string, string[]>, groupId: string, dou_id: string, month: string, year: string) => {
-    const outerStyles = `position: absolute;
+    const outerStyles = `position: fixed;
                         background: #FFC0CBaa;
                         top: 0;
                         bottom: 0;
@@ -79,11 +79,15 @@ export const getSetAbsentFunction = (data: Map<string, string[]>, groupId: strin
     }).join('\n')
 
     return `
-document.documentElement.scrollTop = 0
+let completed = ${days.length}
+
+if (completed > 0) {
+
 let cover = $('<div style="${outerStyles}"><div style="${innerStyles}">Ща, ща, погоди.</div></div>')
 $('body').append(cover)
-        
-let completed = ${days.length}
+
 ${request}
+
+}
     `
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Status from "./Status";
+import {Title, Wrapper} from "../App.styles";
 
 interface Props {
     title: string,
@@ -19,15 +20,6 @@ const Block = styled.div`
   box-shadow: 0 1px 5px rgba(0, 0, 0, .3), 0 3px 30px rgba(0, 0, 0, .3);
   border-radius: 6px;
   padding: 44px 32px 32px 32px;
-`
-
-const Wrapper = styled.div`
-  margin: 4px 0;
-`
-
-const Title = styled.div`
-  display: inline;
-  font-weight: bold;
 `
 
 const ConfigButton = styled.button<{ enabled: boolean }>`

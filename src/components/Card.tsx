@@ -37,7 +37,7 @@ const ConfigButton = styled.button<{ enabled: boolean }>`
 const Card = ({title, text, completed, onConfig, children}: Props) => {
     return (
         <Block>
-            <ConfigButton enabled={!!onConfig}/>
+            <ConfigButton enabled={!!onConfig} onClick={onConfig}/>
 
             <Wrapper><Title>{title}:</Title> {text}</Wrapper>
             {

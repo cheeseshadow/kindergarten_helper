@@ -14,22 +14,31 @@ const findAllOccurrences = (array: any[], element: any) => {
     return result
 }
 
-const findAbsentDates = (data: string[]) => {
+const findAbsentDates = (data: string[], numberFieldPresent: boolean) => {
     const absentMarker = 'нн'
-    const meaninglessColumnCount = 4 // five meaningless columns and the count starts from one
+    const meaninglessColumnCount = numberFieldPresent ? 4 : 3
     const absentDates = findAllOccurrences(data, absentMarker)
 
     return absentDates.map(date => date - meaninglessColumnCount)
 }
 
 export const structureTableData = (data: string) => {
-    const significantLines = data.split('\n').filter(line => /^[0-9]+,.*$/.test(line))
+    const enteredRegex = /^[0-9]+,[а-яА-я]+ [а-яА-я]+,.*$/
+    const exportedRegex = /^[а-яА-я]+ [а-яА-я]\. [а-яА-я]\.,.*$/
+    let numberFieldPresent = true
+
+    const lines = data.split('\n').map(line => line.trim())
+    let significantLines = lines.filter(line => enteredRegex.test(line))
+    if (significantLines.length === 0) {
+        significantLines = lines.filter(line => exportedRegex.test(line))
+        numberFieldPresent = false
+    }
 
     const {children, days} = significantLines.reduce((res: any, line: string) => {
         const rawData = line.split(',')
-        const child = rawData[1]
+        const child = rawData[numberFieldPresent ? 1 : 0]
         res.children.push(child)
-        res.days.push(findAbsentDates(rawData))
+        res.days.push(findAbsentDates(rawData, numberFieldPresent))
 
         return res
     }, {children: [], days: []})

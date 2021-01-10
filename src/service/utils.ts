@@ -23,3 +23,12 @@ export const copyToClipboard = (value: string) => {
 
     $(`#${INPUT_ID}`).remove()
 }
+
+export const fillWithZeros = (value: string, length: number): string => {
+    let result = value
+    while (result.length < length) {
+        result = '0' + result
+    }
+
+    return result
+}

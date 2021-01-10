@@ -22,7 +22,7 @@ const findAbsentDates = (data: string[]) => {
     return absentDates.map(date => date - meaninglessColumnCount)
 }
 
-export const processData = (data: string) => {
+export const structureTableData = (data: string) => {
     const significantLines = data.split('\n').filter(line => /^[0-9]+,.*$/.test(line))
 
     const {children, days} = significantLines.reduce((res: any, line: string) => {
@@ -49,40 +49,40 @@ export const processData = (data: string) => {
     return {children, absentData}
 }
 
-export const scrapChildrenFunction = `(function() {
-    const data = Array.from($('.j_tr')).slice(1, -1).map(row => {
-        const cells = Array.from($(row).children('td'))
-        const name = cells[1].innerText
-        const id = cells[2].getAttribute('child')
+export const matchData = (childrenIds: { [key: string]: string }, tableChildren: string[]) => {
+    const childrenNames = Object.keys(childrenIds)
+    const scrapedSecondNames = childrenNames.map(name => {
+        const match = name.match(/^(.+) .\. .\._.*$/)
+        if (match && match[1]) {
+            return match[1]
+        }
+        return name
+    })
 
-        return {id, name}
-    }).reduce((res, child) => {
-        res[child.name] = child.id
-        return res
-    }, {})
+    const tableSecondNames = tableChildren.map(name => name.split(' ')[0])
 
-    const copyToClipboard = (value) => {
-        const button = $('<button>!</button>')
-        button.click(() => {
-            const input = $('<input id="ultra_input">')
-            input.val(value)
+    const matches = tableSecondNames.map(name => {
+        const index = scrapedSecondNames.indexOf(name)
+        if (index === -1) {
+            return null
+        }
 
-            $('body').append(input)
-            input.focus()
-            input.select()
+        scrapedSecondNames[index] = ''
+        return childrenIds[childrenNames[index]]
+    })
 
-            res = document.execCommand('copy')
-            if (res) {
-                alert('Everything is copied successfully')
-            } else {
-                alert('Something is very wrong')
-            }
+    const failures = []
+    const matchedIds = new Map<string, string>()
+    for (let i = 0; i < matches.length; ++i) {
+        const name = tableChildren[i]
+        const id = matches[i]
+        if (id) {
+            matchedIds.set(name, id)
+        } else {
+            failures.push(name)
+        }
 
-        })
-        button.click()
-
-        $('#ultra_input').remove()
     }
-    
-    copyToClipboard(JSON.stringify(data))
-})()`
+
+    return {failures, matchedIds}
+}

@@ -38,6 +38,7 @@ const SecondStep = ({parsedData, setParsedData}: Props) => {
                   <TextField value={scrapedData} label='Function result' onChange={onScrappedDataSet}/>
               }
               actions={
+                  !parsedData &&
                   <React.Fragment>
                       <Button importance='secondary' type="button" onClick={getFunction}>Get Function</Button>
                       <Button importance='primary' type="submit" onClick={onSubmit}>Submit</Button>

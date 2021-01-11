@@ -1,5 +1,6 @@
 import React from "react";
 import {Card as MUICard, CardActions, CardContent, makeStyles, Typography} from "@material-ui/core";
+import Status from "./Status";
 
 interface Props {
     title: string,
@@ -18,6 +19,9 @@ const useStyles = makeStyles({
         display: 'flex',
         'flex-direction': 'column'
     },
+    title: {
+        'margin-bottom': '4px'
+    },
     content: {
         display: 'flex',
         'flex-direction': 'column'
@@ -34,28 +38,22 @@ const Card = ({title, text, completed, actions, content}: Props) => {
     return (
         <MUICard className={classes.root}>
             <CardContent className={classes.content}>
-                <Typography variant='h6'>{title}</Typography>
-                <Typography variant='body2' color="textSecondary" component="p">{text}</Typography>
-
                 {
                     completed !== undefined &&
-                    <React.Fragment>
-                        <Typography variant='h6'>Status</Typography>
-                        <Typography variant='body2' color="textSecondary"
-                                    component="p">{completed ? 'Completed' : 'Not completed'}</Typography>
-                    </React.Fragment>
+                    <Status value={completed!} successLabel='Completed' failureLabel='Not completed'/>
                 }
 
-                {
-                    !!content &&
-                    <Typography variant='h6'>Content</Typography>
-                }
+                <Typography variant='h6' className={classes.title}>{title}</Typography>
+                <Typography variant='body2' color="textSecondary" component="p">{text}</Typography>
 
-                {content}
+                {!completed && content}
             </CardContent>
-            <CardActions className={classes.actions}>
-                {actions}
-            </CardActions>
+            {
+                !completed &&
+                <CardActions className={classes.actions}>
+                    {actions}
+                </CardActions>
+            }
         </MUICard>
     )
 }

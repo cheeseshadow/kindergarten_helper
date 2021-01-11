@@ -1,10 +1,16 @@
 import React, {useRef} from "react";
-import {Button} from "@material-ui/core";
+import {Button, makeStyles} from "@material-ui/core";
 
 interface Props {
     file: File | null,
     setFile: (file: File | null) => void
 }
+
+const useStyles = makeStyles({
+    root: {
+        'margin-top': '12px'
+    }
+})
 
 const FileInput = ({file, setFile}: Props) => {
     const fileInput = useRef<HTMLInputElement>(null)
@@ -18,8 +24,10 @@ const FileInput = ({file, setFile}: Props) => {
         }
     }
 
+    const classes = useStyles()
+
     return (
-        <Button variant='outlined' color='secondary' component='label'>
+        <Button className={classes.root} variant='outlined' color='secondary' component='label'>
             {!!file ? file.name : 'Upload table'}
             <input type='file' onChange={onFileSet} ref={fileInput} hidden/>
         </Button>

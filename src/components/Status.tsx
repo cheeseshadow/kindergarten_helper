@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import {Chip, makeStyles} from "@material-ui/core";
 
 interface Props {
     value: boolean,
@@ -7,18 +7,22 @@ interface Props {
     failureLabel: string
 }
 
-const Container = styled.div<{ color: string }>`
-  display: inline;
-  padding: 4px;
-  text-transform: lowercase;
-  border-radius: 8px;
-  border: ${({color}) => color} 1px solid;
-  color: ${({color}) => color};
-`
+const useStyles = makeStyles({
+    root: {
+        position: 'absolute',
+        right: '16px',
+        top: '20px'
+    }
+})
 
 const Status = ({value, successLabel, failureLabel}: Props) => {
+    const classes = useStyles()
+    const color = value ? 'primary' : 'secondary'
+    const variant = value ? 'default' : 'outlined'
+    const label = value ? successLabel : failureLabel
+
     return (
-        <Container color={value ? '#39C700' : '#C70039'}>{value ? successLabel : failureLabel}</Container>
+        <Chip className={classes.root} variant={variant} size='small' color={color} label={label}/>
     )
 }
 

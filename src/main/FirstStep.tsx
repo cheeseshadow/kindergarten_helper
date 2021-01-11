@@ -52,6 +52,7 @@ const FirstStep = ({tableData, setTableData}: Props) => {
                   </React.Fragment>
               }
               actions={
+                  !tableData &&
                   <Button importance='primary' type='submit' onClick={onSubmit}>Submit</Button>
               }/>
     )

@@ -23,9 +23,8 @@ const StepsContainer = styled.div`
 const Title = styled.div`
   font-size: 32px;
   font-weight: bold;
-  margin: 12px auto 20px;
+  margin: 20px auto;
 `
-
 
 const App = () => {
     const [tableData, setTableData] = useState<any>(null)
@@ -34,7 +33,7 @@ const App = () => {
 
     return (
         <Page>
-            <Title>Useful stuff</Title>
+            <Title>Ultra Helper</Title>
 
             <StepsContainer>
                 <FirstStep tableData={tableData} setTableData={setTableData}/>

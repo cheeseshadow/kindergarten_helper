@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import {matchData} from "../service/processing";
 import Button from "../common/Button";
 import {Typography} from "@material-ui/core";
+import {useAlert} from "react-alert";
 
 interface Props {
     parsedData: any,
@@ -13,11 +14,13 @@ interface Props {
 }
 
 const ThirdStep = ({parsedData, tableData, successfulMatches, setSuccessfulMatches,}: Props) => {
+    const alert = useAlert()
+
     const [failedMatches, setFailedMatches] = useState<string[]>([])
 
     const onSubmit = () => {
         if (!parsedData || !tableData) {
-            alert('You should complete the first two steps before you are able to do that. The fuck are you thinking?')
+            alert.error('You should complete the first two steps before you are able to do that. The fuck are you thinking?')
             return
         }
 

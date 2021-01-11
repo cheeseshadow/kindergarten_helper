@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import {getSetAbsentFunction} from "../service/scraping";
 import {copyToClipboard} from "../service/utils";
 import Button from "../common/Button";
+import {useAlert} from "react-alert";
 
 interface Props {
     parsedData: any,
@@ -12,10 +13,11 @@ interface Props {
 }
 
 const FourthStep = ({parsedData, tableData, successfulMatches}: Props) => {
+    const alert = useAlert()
 
     const getFunction = () => {
         if (!successfulMatches) {
-            alert('No matched data. Did you do the steps 1-3? The fuck are you thinking?')
+            alert.error('No matched data. Did you do the steps 1-3? The fuck are you thinking?')
             return
         }
 
@@ -29,7 +31,7 @@ const FourthStep = ({parsedData, tableData, successfulMatches}: Props) => {
 
         const setAbsentFunction = getSetAbsentFunction(absentIds, parsedData.groupId, parsedData.dou_id,
             parsedData.month, parsedData.year)
-        copyToClipboard(setAbsentFunction)
+        copyToClipboard(setAbsentFunction, alert, 'The function was copied successfully.')
     }
 
     return (

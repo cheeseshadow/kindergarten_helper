@@ -5,6 +5,7 @@ import {copyToClipboard} from "../service/utils";
 import {scrapChildrenFunction} from "../service/scraping";
 import Button from "../common/Button";
 import TextField from "../common/TextField";
+import {useAlert} from "react-alert";
 
 interface Props {
     parsedData: any,
@@ -12,6 +13,8 @@ interface Props {
 }
 
 const SecondStep = ({parsedData, setParsedData}: Props) => {
+    const alert = useAlert()
+
     const [scrapedData, setScrappedData] = useState('')
 
     const onScrappedDataSet = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -19,12 +22,12 @@ const SecondStep = ({parsedData, setParsedData}: Props) => {
     }
 
     const getFunction = () => {
-        copyToClipboard(scrapChildrenFunction)
+        copyToClipboard(scrapChildrenFunction, alert, 'The function was copied successfully.')
     }
 
     const onSubmit = () => {
         if (scrapedData === '') {
-            alert('The area you should have filled with the scrapped children data is empty. The fuck?')
+            alert.error('The area you should have filled with the scrapped children data is empty. The fuck?')
             return
         }
 

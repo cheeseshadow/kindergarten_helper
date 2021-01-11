@@ -7,6 +7,7 @@ import FileInput from "../components/FileInput";
 import Button from "../common/Button";
 import {readFile} from "../service/utils";
 import {read as readXLSX, utils as XLSXUtils} from 'xlsx'
+import {useAlert} from "react-alert";
 
 interface Props {
     tableData: any,
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const FirstStep = ({tableData, setTableData}: Props) => {
+    const alert = useAlert()
+
     const [file, setFile] = useState<File | null>(null)
     const [rawCsv, setRawCsv] = useState('')
 
@@ -32,7 +35,7 @@ const FirstStep = ({tableData, setTableData}: Props) => {
 
     const onSubmit = () => {
         if (!file && rawCsv === '') {
-            alert('Select a workbook file for conversion or fill the text area with the .csv data. Why the fuck didn\'t you do this?')
+            alert.error('Select a workbook file for conversion or fill the text area with the .csv data. Why the fuck didn\'t you do this?')
             return
         }
 

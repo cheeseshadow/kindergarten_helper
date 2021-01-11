@@ -1,6 +1,7 @@
 import $ from 'jquery'
+import {AlertManager} from "react-alert";
 
-export const copyToClipboard = (value: string) => {
+export const copyToClipboard = (value: string, alert: AlertManager, successMessage?: string) => {
     const INPUT_ID = 'very_long_input_id'
     const button = $('<button>!</button>')
     button.click(() => {
@@ -13,9 +14,9 @@ export const copyToClipboard = (value: string) => {
 
         const res = document.execCommand('copy')
         if (res) {
-            alert('Everything is copied successfully')
+            alert.success(successMessage || 'Everything is copied successfully')
         } else {
-            alert('Something is very wrong')
+            alert.error('Something is very wrong')
         }
 
     })

@@ -19,10 +19,10 @@ const Block = styled.div`
   margin: 8px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, .3), 0 3px 30px rgba(0, 0, 0, .3);
   border-radius: 6px;
-  padding: 44px 32px 32px 32px;
+  padding: 32px;
 `
 
-const ConfigButton = styled.button<{ enabled: boolean }>`
+/*const ConfigButton = styled.button<{ enabled: boolean }>`
   position: absolute;
   width: 24px;
   height: 24px;
@@ -32,12 +32,12 @@ const ConfigButton = styled.button<{ enabled: boolean }>`
   top: 16px;
   cursor: ${({enabled}) => enabled ? 'pointer' : 'default'};
   background: ${({enabled}) => enabled ? '#FFC300' : '#eee'}
-`
+`*/
 
 const Card = ({title, text, completed, onConfig, children}: Props) => {
     return (
         <Block>
-            <ConfigButton enabled={!!onConfig} onClick={onConfig}/>
+            {/*<ConfigButton enabled={!!onConfig} onClick={onConfig}/>*/}
 
             <Wrapper><Title>{title}:</Title> {text}</Wrapper>
             {

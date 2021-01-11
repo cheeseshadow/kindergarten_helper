@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useRef, useState} from "react";
 import {firstStepText} from "../App.text";
-import AreaInput from "../common/AreaInput";
 import Card from "../components/Card";
 import {structureTableData} from "../service/processing";
-import {Button} from "../App.styles";
+import TextField from "../common/TextField";
+import Button from "../common/Button";
 import {readFile} from "../service/utils";
 import {read as readXLSX, utils as XLSXUtils} from 'xlsx'
 
@@ -46,9 +46,10 @@ const FirstStep = ({tableData, setTableData}: Props) => {
                 !tableData &&
                 <React.Fragment>
                     <input type='file' ref={fileInput}/>
-                    <AreaInput value={rawCsv} placeholder={'Paste the .csv file contents here'}
+                    <TextField label='.csv contents'
+                               value={rawCsv}
                                onChange={onRawCsvSet}/>
-                    <Button type="submit" onClick={onSubmit}>Submit</Button>
+                    <Button importance='primary' type='submit' onClick={onSubmit}>Submit</Button>
                 </React.Fragment>
             }
         </Card>

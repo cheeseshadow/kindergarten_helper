@@ -1,9 +1,9 @@
 import React from "react";
 import {fourthStepText} from "../App.text";
 import Card from "../components/Card";
-import {Button} from "../App.styles";
 import {getSetAbsentFunction} from "../service/scraping";
 import {copyToClipboard} from "../service/utils";
+import Button from "../common/Button";
 
 interface Props {
     parsedData: any,
@@ -34,7 +34,7 @@ const FourthStep = ({parsedData, tableData, successfulMatches}: Props) => {
 
     return (
         <Card title='Step 4' text={fourthStepText}>
-            <Button type="button" onClick={getFunction}>Get Function</Button>
+            <Button importance='primary' type="button" onClick={getFunction}>Get Function</Button>
         </Card>
     )
 }

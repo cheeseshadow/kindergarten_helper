@@ -1,10 +1,10 @@
 import React, {ChangeEvent, useState} from "react";
 import {secondStepText} from "../App.text";
-import AreaInput from "../common/AreaInput";
 import Card from "../components/Card";
-import {Button} from "../App.styles";
 import {copyToClipboard} from "../service/utils";
 import {scrapChildrenFunction} from "../service/scraping";
+import Button from "../common/Button";
+import TextField from "../common/TextField";
 
 interface Props {
     parsedData: any,
@@ -36,11 +36,10 @@ const SecondStep = ({parsedData, setParsedData}: Props) => {
             {
                 !parsedData &&
                 <React.Fragment>
-                    <Button type="button" onClick={getFunction}>Get Function</Button>
+                    <Button importance='secondary' type="button" onClick={getFunction}>Get Function</Button>
 
-                    <AreaInput value={scrapedData} placeholder={'Paste the result of the function here'}
-                               onChange={onScrappedDataSet}/>
-                    <Button type="submit" onClick={onSubmit}>Submit</Button>
+                    <TextField value={scrapedData} label='Function result' onChange={onScrappedDataSet}/>
+                    <Button importance='primary' type="submit" onClick={onSubmit}>Submit</Button>
                 </React.Fragment>
             }
         </Card>

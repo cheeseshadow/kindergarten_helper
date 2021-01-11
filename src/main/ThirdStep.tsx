@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import {thirdStepText} from "../App.text";
 import Card from "../components/Card";
-import {Button, Title, Wrapper} from "../App.styles";
+import {Title, Wrapper} from "../App.styles";
 import {matchData} from "../service/processing";
+import Button from "../common/Button";
 
 interface Props {
     parsedData: any,
@@ -33,7 +34,7 @@ const ThirdStep = ({parsedData, tableData, successfulMatches, setSuccessfulMatch
             }
             {
                 !successfulMatches &&
-                <Button type="submit" onClick={onSubmit}>Submit</Button>
+                <Button importance='primary' type="submit" onClick={onSubmit}>Submit</Button>
             }
         </Card>
     )

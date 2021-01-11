@@ -46,14 +46,11 @@ const Card = ({title, text, completed, actions, content}: Props) => {
                 <Typography variant='h6' className={classes.title}>{title}</Typography>
                 <Typography variant='body2' color="textSecondary" component="p">{text}</Typography>
 
-                {!completed && content}
+                {content}
             </CardContent>
-            {
-                !completed &&
-                <CardActions className={classes.actions}>
-                    {actions}
-                </CardActions>
-            }
+            <CardActions className={classes.actions}>
+                {actions}
+            </CardActions>
         </MUICard>
     )
 }

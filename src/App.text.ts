@@ -1,4 +1,4 @@
-export const firstStepText = 'Select a table file to use as a data source or copy and paste the .csv file contents into the text area and then press the Submit button to read the children data.'
-export const secondStepText = 'Press the Get Function button to copy the code to your clipboard. Paste and execute the code on the page with the children list to get the data.'
+export const firstStepText = 'Select a table file to use as a data source or copy and paste the .csv file contents into the text area and then press the "Submit" button to read the children data.'
+export const secondStepText = 'Press the "Get Function" button to copy the code to your clipboard. Paste and execute the code on the page with the children list to get the data.'
 export const thirdStepText = 'Map children from the .csv to the scrapped children from the web page.'
-export const fourthStepText = 'Press the Get Function button to copy the code to your clipboard. Paste and execute the code on the page with the children list to set the data from the .csv.'
+export const fourthStepText = 'Press the "Get Function" button to copy the code to your clipboard. Paste and execute the code on the page with the children list to set the data from the .csv.'

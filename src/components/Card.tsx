@@ -1,53 +1,62 @@
 import React from "react";
-import styled from "styled-components";
-import Status from "./Status";
-import {Title, Wrapper} from "../App.styles";
+import {Card as MUICard, CardActions, CardContent, makeStyles, Typography} from "@material-ui/core";
 
 interface Props {
     title: string,
     text: string,
     completed?: boolean,
-    onConfig?: any,
-    children?: any
+    actions?: any,
+    content?: any
 }
 
-const Block = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  width: 420px;
-  margin: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, .3), 0 3px 30px rgba(0, 0, 0, .3);
-  border-radius: 6px;
-  padding: 32px;
-`
+const useStyles = makeStyles({
+    root: {
+        position: 'relative',
+        minWidth: '300px',
+        maxWidth: '420px',
+        margin: '8px',
+        display: 'flex',
+        'flex-direction': 'column'
+    },
+    content: {
+        display: 'flex',
+        'flex-direction': 'column'
+    },
+    actions: {
+        padding: '0 16px 16px 16px',
+        'justify-content': 'flex-end'
+    }
+})
 
-/*const ConfigButton = styled.button<{ enabled: boolean }>`
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 50%;
-  right: 16px;
-  top: 16px;
-  cursor: ${({enabled}) => enabled ? 'pointer' : 'default'};
-  background: ${({enabled}) => enabled ? '#FFC300' : '#eee'}
-`*/
+const Card = ({title, text, completed, actions, content}: Props) => {
+    const classes = useStyles()
 
-const Card = ({title, text, completed, onConfig, children}: Props) => {
     return (
-        <Block>
-            {/*<ConfigButton enabled={!!onConfig} onClick={onConfig}/>*/}
+        <MUICard className={classes.root}>
+            <CardContent className={classes.content}>
+                <Typography variant='h6'>{title}</Typography>
+                <Typography variant='body2' color="textSecondary" component="p">{text}</Typography>
 
-            <Wrapper><Title>{title}:</Title> {text}</Wrapper>
-            {
-                completed !== undefined &&
-                <Wrapper><Title>Status:</Title> <Status value={completed!} successLabel='Completed'
-                                                        failureLabel='Not completed'/></Wrapper>
-            }
+                {
+                    completed !== undefined &&
+                    <React.Fragment>
+                        <Typography variant='h6'>Status</Typography>
+                        <Typography variant='body2' color="textSecondary"
+                                    component="p">{completed ? 'Completed' : 'Not completed'}</Typography>
+                    </React.Fragment>
+                }
 
-            {children}
-        </Block>
+                {
+                    !!content &&
+                    <Typography variant='h6'>Content</Typography>
+                }
+
+                {content}
+            </CardContent>
+            <CardActions className={classes.actions}>
+                {actions}
+            </CardActions>
+        </MUICard>
     )
 }
 

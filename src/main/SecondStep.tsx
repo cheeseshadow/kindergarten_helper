@@ -32,17 +32,17 @@ const SecondStep = ({parsedData, setParsedData}: Props) => {
     }
 
     return (
-        <Card title='Step 2' text={secondStepText} completed={!!parsedData}>
-            {
-                !parsedData &&
-                <React.Fragment>
-                    <Button importance='secondary' type="button" onClick={getFunction}>Get Function</Button>
-
-                    <TextField value={scrapedData} label='Function result' onChange={onScrappedDataSet}/>
-                    <Button importance='primary' type="submit" onClick={onSubmit}>Submit</Button>
-                </React.Fragment>
-            }
-        </Card>
+        <Card title='Step 2' text={secondStepText} completed={!!parsedData}
+              content={
+                  !parsedData &&
+                  <TextField value={scrapedData} label='Function result' onChange={onScrappedDataSet}/>
+              }
+              actions={
+                  <React.Fragment>
+                      <Button importance='secondary' type="button" onClick={getFunction}>Get Function</Button>
+                      <Button importance='primary' type="submit" onClick={onSubmit}>Submit</Button>
+                  </React.Fragment>
+              }/>
     )
 }
 

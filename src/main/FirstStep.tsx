@@ -1,8 +1,9 @@
-import React, {ChangeEvent, useRef, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {firstStepText} from "../App.text";
 import Card from "../components/Card";
 import {structureTableData} from "../service/processing";
 import TextField from "../common/TextField";
+import FileInput from "../components/FileInput";
 import Button from "../common/Button";
 import {readFile} from "../service/utils";
 import {read as readXLSX, utils as XLSXUtils} from 'xlsx'
@@ -13,8 +14,8 @@ interface Props {
 }
 
 const FirstStep = ({tableData, setTableData}: Props) => {
+    const [file, setFile] = useState<File | null>(null)
     const [rawCsv, setRawCsv] = useState('')
-    const fileInput = useRef<HTMLInputElement>(null)
 
     const onRawCsvSet = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setRawCsv(e.target.value)
@@ -30,29 +31,29 @@ const FirstStep = ({tableData, setTableData}: Props) => {
     }
 
     const onSubmit = () => {
-        const fileSelected = fileInput.current!.files && fileInput.current!.files[0]
-        if (!fileSelected && rawCsv === '') {
+        if (!file && rawCsv === '') {
             alert('Select a workbook file for conversion or fill the text area with the .csv data. Why the fuck didn\'t you do this?')
             return
         }
 
-        let contentsPromise = fileSelected ? readCsv(fileInput.current!.files![0]) : Promise.resolve(rawCsv)
+        let contentsPromise = !!file ? readCsv(file) : Promise.resolve(rawCsv)
         contentsPromise.then(contents => setTableData(structureTableData(contents)))
     }
 
     return (
-        <Card title='Step 1' text={firstStepText} completed={!!tableData}>
-            {
-                !tableData &&
-                <React.Fragment>
-                    <input type='file' ref={fileInput}/>
-                    <TextField label='.csv contents'
-                               value={rawCsv}
-                               onChange={onRawCsvSet}/>
-                    <Button importance='primary' type='submit' onClick={onSubmit}>Submit</Button>
-                </React.Fragment>
-            }
-        </Card>
+        <Card title='Step 1' text={firstStepText} completed={!!tableData}
+              content={
+                  !tableData &&
+                  <React.Fragment>
+                      <FileInput file={file} setFile={setFile}/>
+                      <TextField label='.csv contents'
+                                 value={rawCsv}
+                                 onChange={onRawCsvSet}/>
+                  </React.Fragment>
+              }
+              actions={
+                  <Button importance='primary' type='submit' onClick={onSubmit}>Submit</Button>
+              }/>
     )
 }
 

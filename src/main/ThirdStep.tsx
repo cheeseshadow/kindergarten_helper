@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {thirdStepText} from "../App.text";
 import Card from "../components/Card";
-import {Title, Wrapper} from "../App.styles";
 import {matchData} from "../service/processing";
 import Button from "../common/Button";
+import {Typography} from "@material-ui/core";
 
 interface Props {
     parsedData: any,
@@ -27,16 +27,19 @@ const ThirdStep = ({parsedData, tableData, successfulMatches, setSuccessfulMatch
     }
 
     return (
-        <Card title='Step 3' text={thirdStepText} completed={!!successfulMatches}>
-            {
-                !!failedMatches.length &&
-                <Wrapper><Title>Failed to match</Title>: {failedMatches.join(', ')}</Wrapper>
-            }
-            {
-                !successfulMatches &&
-                <Button importance='primary' type="submit" onClick={onSubmit}>Submit</Button>
-            }
-        </Card>
+        <Card title='Step 3' text={thirdStepText} completed={!!successfulMatches}
+              content={
+                  !!failedMatches.length &&
+                  <React.Fragment>
+                      <Typography variant='h6'>Failed to match</Typography>
+                      <Typography variant='body2' color="textSecondary"
+                                  component="p">{failedMatches.join('\n')}</Typography>
+                  </React.Fragment>
+              }
+              actions={
+                  !successfulMatches &&
+                  <Button importance='primary' type="submit" onClick={onSubmit}>Submit</Button>
+              }/>
     )
 }
 

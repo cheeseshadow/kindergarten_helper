@@ -33,9 +33,10 @@ const FourthStep = ({parsedData, tableData, successfulMatches}: Props) => {
     }
 
     return (
-        <Card title='Step 4' text={fourthStepText}>
-            <Button importance='primary' type="button" onClick={getFunction}>Get Function</Button>
-        </Card>
+        <Card title='Step 4' text={fourthStepText}
+              actions={
+                  <Button importance='primary' type="button" onClick={getFunction}>Get Function</Button>
+              }/>
     )
 }
 

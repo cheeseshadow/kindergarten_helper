@@ -35,14 +35,12 @@ export const fillWithZeros = (value: string, length: number): string => {
     return result
 }
 
-export const readFile = (file: File, handler: (result: string | ArrayBuffer) => string): string => {
-    const reader = new FileReader()
-    let result = ''
-
-    reader.onload = (event) => {
-        result = handler(event.target!.result!)
-    }
-    reader.readAsBinaryString(file)
-
-    return result
+export const readFile = async (file: File): Promise<string | ArrayBuffer> => {
+    return new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+            resolve(event.target!.result!)
+        }
+        reader.readAsBinaryString(file)
+    })
 }

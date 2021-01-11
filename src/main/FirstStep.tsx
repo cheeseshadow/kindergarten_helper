@@ -20,9 +20,9 @@ const FirstStep = ({tableData, setTableData}: Props) => {
         setRawCsv(e.target.value)
     }
 
-    const readCsv = (file: File): string => {
-        return readFile(file, (result) => {
-            const sheet = readXLSX(result, {
+    const readCsv = (file: File): Promise<string> => {
+        return readFile(file).then(data => {
+            const sheet = readXLSX(data, {
                 type: 'binary'
             })
             return XLSXUtils.sheet_to_csv(sheet.Sheets[sheet.SheetNames[0]])
@@ -36,12 +36,8 @@ const FirstStep = ({tableData, setTableData}: Props) => {
             return
         }
 
-        let contents = rawCsv
-        if (fileSelected) {
-            contents = readCsv(fileInput.current!.files![0])
-        }
-
-        setTableData(structureTableData(contents))
+        let contentsPromise = fileSelected ? readCsv(fileInput.current!.files![0]) : Promise.resolve(rawCsv)
+        contentsPromise.then(contents => setTableData(structureTableData(contents)))
     }
 
     return (

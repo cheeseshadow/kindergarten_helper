@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {secondStepText} from "../App.text";
 import AreaInput from "../common/AreaInput";
 import Card from "../components/Card";
@@ -8,12 +8,12 @@ import {scrapChildrenFunction} from "../service/scraping";
 
 interface Props {
     parsedData: any,
-    scrapedData: string,
     setParsedData: (value: React.SetStateAction<any>) => void,
-    setScrappedData: (value: React.SetStateAction<string>) => void
 }
 
-const SecondStep = ({parsedData, setParsedData, scrapedData, setScrappedData}: Props) => {
+const SecondStep = ({parsedData, setParsedData}: Props) => {
+    const [scrapedData, setScrappedData] = useState('')
+
     const onScrappedDataSet = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setScrappedData(e.target.value)
     }

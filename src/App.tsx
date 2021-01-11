@@ -28,27 +28,21 @@ const Title = styled.div`
 
 
 const App = () => {
-    const [rawCsv, setRawCsv] = useState('')
     const [tableData, setTableData] = useState<any>(null)
-    const [scrapedData, setScrappedData] = useState('')
     const [parsedData, setParsedData] = useState<any>(null)
     const [successfulMatches, setSuccessfulMatches] = useState<Map<string, string> | null>(null)
-    const [failedMatches, setFailedMatches] = useState<string[]>([])
-
 
     return (
         <Page>
             <Title>Useful stuff</Title>
 
             <StepsContainer>
-                <FirstStep tableData={tableData} rawCsv={rawCsv} setTableData={setTableData} setRawCsv={setRawCsv}/>
+                <FirstStep tableData={tableData} setTableData={setTableData}/>
 
-                <SecondStep parsedData={parsedData} scrapedData={scrapedData} setParsedData={setParsedData}
-                            setScrappedData={setScrappedData}/>
+                <SecondStep parsedData={parsedData} setParsedData={setParsedData}/>
 
-                <ThirdStep parsedData={parsedData} tableData={tableData} failedMatches={failedMatches}
-                           successfulMatches={successfulMatches} setSuccessfulMatches={setSuccessfulMatches}
-                           setFailedMatches={setFailedMatches}/>
+                <ThirdStep parsedData={parsedData} tableData={tableData}
+                           successfulMatches={successfulMatches} setSuccessfulMatches={setSuccessfulMatches}/>
 
                 <FourthStep parsedData={parsedData} tableData={tableData} successfulMatches={successfulMatches}/>
             </StepsContainer>

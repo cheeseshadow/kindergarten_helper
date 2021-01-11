@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {thirdStepText} from "../App.text";
 import Card from "../components/Card";
 import {Button, Title, Wrapper} from "../App.styles";
@@ -7,20 +7,12 @@ import {matchData} from "../service/processing";
 interface Props {
     parsedData: any,
     tableData: any,
-    failedMatches: string[],
     successfulMatches: Map<string, string> | null,
     setSuccessfulMatches: (value: React.SetStateAction<Map<string, string> | null>) => void,
-    setFailedMatches: (value: React.SetStateAction<string[]>) => void
 }
 
-const ThirdStep = ({
-                       parsedData,
-                       tableData,
-                       failedMatches,
-                       successfulMatches,
-                       setSuccessfulMatches,
-                       setFailedMatches
-                   }: Props) => {
+const ThirdStep = ({parsedData, tableData, successfulMatches, setSuccessfulMatches,}: Props) => {
+    const [failedMatches, setFailedMatches] = useState<string[]>([])
 
     const onSubmit = () => {
         if (!parsedData || !tableData) {

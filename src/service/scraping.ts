@@ -97,8 +97,8 @@ export const getSetAbsentFunction = (data: Map<string, string[]>, groupId: strin
             let cover = $('<div style="${outerStyles}"><div style="${innerStyles}">Ща, ща, погоди.</div></div>')
             $('body').append(cover)
             
-            Promise.all(${promises}).then(() => {
-                cover.remove()
+            Promise.all([${promises}]).then(() => {
+                location.reload()
             })
         }
     })()

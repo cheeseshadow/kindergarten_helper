@@ -16,7 +16,7 @@ const findAllOccurrences = (array: any[], element: any) => {
 
 const findAbsentDates = (data: string[], numberFieldPresent: boolean) => {
     const absentMarker = 'нн'
-    const meaninglessColumnCount = numberFieldPresent ? 4 : 3
+    const meaninglessColumnCount = numberFieldPresent ? 3 : 2
     const absentDates = findAllOccurrences(data, absentMarker)
 
     return absentDates.map(date => date - meaninglessColumnCount)

@@ -45,3 +45,12 @@ export const readFile = async (file: File): Promise<string | ArrayBuffer> => {
         reader.readAsBinaryString(file)
     })
 }
+
+export const range = (start: number, end: number): number[] => {
+    const result = []
+    for (let i = start; i < end; ++i) {
+        result.push(i)
+    }
+
+    return result
+}

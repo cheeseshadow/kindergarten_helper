@@ -1,4 +1,4 @@
-import {fillWithZeros} from "./utils";
+import {fillWithZeros, range} from "./utils";
 
 export const scrapChildrenFunction = `(function() {
     const children = Array.from($('.j_tr')).slice(1, -1).map(row => {
@@ -16,8 +16,9 @@ export const scrapChildrenFunction = `(function() {
     const dou_id = $('[name="dou_id"]')[0].value
     const month = $('#id_period')[0].value
     const year = $('#id_year')[0].value
+    const lastDay = $('#table tbody tr').first().children().length - 4
     
-    const data = {children, groupId, dou_id, month, year}
+    const data = {children, groupId, dou_id, month, year, lastDay}
 
     const copyToClipboard = (value) => {
         const button = $('<button>!</button>')
@@ -45,7 +46,21 @@ export const scrapChildrenFunction = `(function() {
     copyToClipboard(JSON.stringify(data))
 })()`
 
-export const getSetAbsentFunction = (data: Map<string, string[]>, groupId: string, dou_id: string, month: string, year: string) => {
+const fixDayFunction = `
+function fixDay(dou_id, childrenIds, groupId, dateStr) {
+    return new Promise(resolve => {
+        $.post('/cabinet/children/visit/save/?dou_id=' + dou_id, {
+            children: childrenIds,
+            group: groupId,
+            date: dateStr
+        }, (data) => {
+            resolve(data)
+        });
+    })
+}
+`
+
+export const getSetAbsentFunction = (data: Map<string, string[]>, groupId: string, dou_id: string, month: string, year: string, lastDay: number) => {
     const outerStyles = `position: fixed;
                         background: #FFC0CBaa;
                         top: 0;
@@ -63,31 +78,29 @@ export const getSetAbsentFunction = (data: Map<string, string[]>, groupId: strin
                         border-radius: 8px;
                         padding: 4px;`.split('\n').map(a => a.trim()).join('')
 
-    const days = Array.from(data.keys())
-    const request = days.map(day => {
-        const dayStr = fillWithZeros(day, 2)
+    const promises = range(0, lastDay + 1).map(day => {
+        const dayStr = fillWithZeros('' + day, 2)
         const monthStr = fillWithZeros(month, 2)
         const dateStr = `${dayStr}.${monthStr}.${year}`
 
-        const childrenIds = data.get(day)
-        return `$.post('/cabinet/children/visit/save/?dou_id=${dou_id}', {children: '${childrenIds!.join('|')}', group: ${groupId}, date: '${dateStr}'}, function(data){
-            --completed
-            if (completed === 0) {
-                cover.remove()
-            }
-        });`
-    }).join('\n')
+        const childrenIds = data.get('' + day) || []
+
+        return `fixDay('${dou_id}', '${childrenIds.join('|')}', '${groupId}', '${dateStr}')`
+    }).join(',\n')
 
     return `
-let completed = ${days.length}
-
-if (completed > 0) {
-
-let cover = $('<div style="${outerStyles}"><div style="${innerStyles}">Ща, ща, погоди.</div></div>')
-$('body').append(cover)
-
-${request}
-
-}
+    (function() {
+        let completed = ${lastDay}
+        if (completed > 0) {
+            ${fixDayFunction}
+        
+            let cover = $('<div style="${outerStyles}"><div style="${innerStyles}">Ща, ща, погоди.</div></div>')
+            $('body').append(cover)
+            
+            Promise.all(${promises}).then(() => {
+                cover.remove()
+            })
+        }
+    })()
     `
 }

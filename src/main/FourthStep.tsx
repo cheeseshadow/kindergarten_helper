@@ -30,7 +30,7 @@ const FourthStep = ({parsedData, tableData, successfulMatches}: Props) => {
         }
 
         const setAbsentFunction = getSetAbsentFunction(absentIds, parsedData.groupId, parsedData.dou_id,
-            parsedData.month, parsedData.year)
+            parsedData.month, parsedData.year, parsedData.lastDay)
         copyToClipboard(setAbsentFunction, alert, 'The function was copied successfully.')
     }
 

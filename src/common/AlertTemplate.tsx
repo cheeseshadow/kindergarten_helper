@@ -5,7 +5,7 @@ import React from "react";
 const style = {
     width: '500px',
     margin: '4px',
-    'max-width': '100vw'
+    'maxWidth': '100vw'
 }
 
 const AlertTemplate = ({message, options}: AlertComponentPropsWithStyle) => {

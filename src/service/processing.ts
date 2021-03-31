@@ -35,7 +35,8 @@ export const structureTableData = (data: string) => {
     }
 
     const {children, days} = significantLines.reduce((res: any, line: string) => {
-        const rawData = line.split(',')
+        const processedLine = line.toLowerCase()
+        const rawData = processedLine.split(',')
         const child = rawData[numberFieldPresent ? 1 : 0]
         res.children.push(child)
         res.days.push(findAbsentDates(rawData, numberFieldPresent))

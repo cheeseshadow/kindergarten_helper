@@ -1,9 +1,10 @@
-const findAllOccurrences = (array: any[], element: any) => {
+const findAllOccurrences = (array: string[], element: string, ignoreCase: boolean) => {
+    const processedArray = ignoreCase ? array.map(data => data.toLowerCase()) : array.slice()
     const result = []
     let index = 0
 
     while (true) {
-        index = array.indexOf(element, index + 1)
+        index = processedArray.indexOf(element, index + 1)
         if (index === -1) {
             break
         } else {
@@ -17,7 +18,7 @@ const findAllOccurrences = (array: any[], element: any) => {
 const findAbsentDates = (data: string[], numberFieldPresent: boolean) => {
     const absentMarker = 'нн'
     const meaninglessColumnCount = numberFieldPresent ? 3 : 2
-    const absentDates = findAllOccurrences(data, absentMarker)
+    const absentDates = findAllOccurrences(data, absentMarker, true)
 
     return absentDates.map(date => date - meaninglessColumnCount)
 }
@@ -35,8 +36,7 @@ export const structureTableData = (data: string) => {
     }
 
     const {children, days} = significantLines.reduce((res: any, line: string) => {
-        const processedLine = line.toLowerCase()
-        const rawData = processedLine.split(',')
+        const rawData = line.split(',')
         const child = rawData[numberFieldPresent ? 1 : 0]
         res.children.push(child)
         res.days.push(findAbsentDates(rawData, numberFieldPresent))

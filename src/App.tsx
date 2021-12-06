@@ -24,7 +24,22 @@ const Title = styled.div`
   font-size: 32px;
   font-weight: bold;
   margin: 20px auto;
+  display: flex;
+  position: relative;
 `
+
+const Version = styled.div`
+  font-size: 12px;
+  line-height: 18px;
+  color: #9c27b0;
+  border: 1px solid #9c27b0;
+  border-radius: 16px;
+  padding: 0 8px;
+  position: absolute;
+  left: calc(100% + 4px);
+`
+
+const versionNumber = '1.0.1'
 
 const App = () => {
     const [tableData, setTableData] = useState<any>(null)
@@ -33,7 +48,7 @@ const App = () => {
 
     return (
         <Page>
-            <Title>Ultra Helper</Title>
+            <Title>Ultra Helper<Version>{versionNumber}</Version></Title>
 
             <StepsContainer>
                 <FirstStep tableData={tableData} setTableData={setTableData}/>

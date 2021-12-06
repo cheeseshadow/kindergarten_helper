@@ -61,10 +61,14 @@ export const structureTableData = (data: string) => {
 
 export const matchData = (childrenIds: { [key: string]: string }, tableChildren: string[]) => {
     const childrenNames = Object.keys(childrenIds)
-    const scrapedSecondNames = childrenNames.map(name => {
-        const match = name.match(/^(.+) .\. .\._.*$/)
-        if (match && match[1]) {
-            return match[1]
+    const scrapedSecondNames = childrenNames.map(scrappedName => {
+        const [name] = scrappedName.toLowerCase().split('_')
+        // matches either initials: Buchiy E.A. or default: Buchiy Evgeniy
+        const match = name.match(/(?:^(.+) .\. .\.$)|(?:^(.+) (?:.+))/)
+
+        if (match) {
+            const secondName = match[1] || match[2]
+            if (secondName) return secondName
         }
         return name
     })
@@ -72,7 +76,7 @@ export const matchData = (childrenIds: { [key: string]: string }, tableChildren:
     const tableSecondNames = tableChildren.map(name => name.split(' ')[0])
 
     const matches = tableSecondNames.map(name => {
-        const index = scrapedSecondNames.indexOf(name)
+        const index = scrapedSecondNames.indexOf(name.toLowerCase())
         if (index === -1) {
             return null
         }
